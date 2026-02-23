@@ -15,6 +15,33 @@ public class CollectionManager {
     }
 
     public void insert(Integer key, Organization organization) {
+        if (key == null) {
+            throw new IllegalArgumentException("Key cannot be null");
+        }
+        if (organization == null) {
+            throw new IllegalArgumentException("Organization cannot be null");
+        }
+        if (collections.containsKey(key)) {
+            throw new IllegalArgumentException("Key already exists");
+        }
+        collections.put(key, organization);
+    }
+    public void remove(Integer key) {
+        if (key == null) {
+            throw new IllegalArgumentException("Key cannot be null");
+        }
 
+        if (!collections.containsKey(key)) {
+            throw new IllegalArgumentException("Key does not exist");
+        }
+        collections.remove(key);
+    }
+    public void clear() {
+        collections.clear();
+    }
+    public void info() {
+        System.out.println("Collection type: " + collections.getClass().getSimpleName());
+        System.out.println("Creation date: " + creationDate);
+        System.out.println("Number of elements: " + collections.size());
     }
 }
