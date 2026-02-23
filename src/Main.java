@@ -13,4 +13,3 @@ public class Main {
         }
     }
 }
-bu bir deneme psuhu
