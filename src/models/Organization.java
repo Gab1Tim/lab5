@@ -49,4 +49,18 @@ public class Organization {
         return nextId++;
 
     }
+
+    @Override
+    public String toString() {
+        return "Organization {" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", coordinates=" + coordinates +
+                ", creationDate=" + creationDate +
+                ", annualTurnover=" + annualTurnover +
+                ", type=" + type +
+                ", officialAddress=" + officialAddress +
+                '}';
+    }
+
 }

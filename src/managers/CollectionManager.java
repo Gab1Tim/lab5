@@ -44,4 +44,14 @@ public class CollectionManager {
         System.out.println("Creation date: " + creationDate);
         System.out.println("Number of elements: " + collections.size());
     }
+
+    public void show() {
+        if  (collections.isEmpty()) {
+            System.out.println("Collection is empty");
+            return;
+        }
+        for (Organization organization : collections.values()) {
+            System.out.println(organization);
+        }
+    }
 }

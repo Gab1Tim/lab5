@@ -15,4 +15,10 @@ public class Coordinates {
         this.x = x;
         this.y = y;
     }
+
+    @Override
+    public String toString() {
+        return "Coordinates {x=" + x + ", y=" + y + "}";
+    }
+
 }
