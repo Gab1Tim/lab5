@@ -26,6 +26,7 @@ public class CollectionManager {
         }
         collections.put(key, organization);
     }
+
     public void remove(Integer key) {
         if (key == null) {
             throw new IllegalArgumentException("Key cannot be null");
@@ -36,6 +37,11 @@ public class CollectionManager {
         }
         collections.remove(key);
     }
+
+    public boolean containsKey(Integer key) {
+        return collections.containsKey(key);
+    }
+
     public void clear() {
         collections.clear();
     }

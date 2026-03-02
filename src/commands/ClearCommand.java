@@ -2,26 +2,27 @@ package commands;
 
 import managers.CollectionManager;
 
-public class ShowCommand  implements Command {
+public class ClearCommand implements Command {
 
     private CollectionManager collectionManager;
 
-    public ShowCommand(CollectionManager collectionManager) {
+    public ClearCommand(CollectionManager collectionManager) {
         this.collectionManager = collectionManager;
     }
 
     @Override
     public String getName() {
-        return "show";
+        return "clear";
     }
 
     @Override
     public String getDescription() {
-        return "Shows the the all elements in the collection";
+        return "Clears the entire collection";
     }
 
     @Override
     public void execute(String[] args) {
-        collectionManager.show();
+        collectionManager.clear();
+        System.out.println("Collection cleared successfully!");
     }
 }
