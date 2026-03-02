@@ -27,7 +27,6 @@ public class InsertCommand implements Command {
     @Override
     public void execute(String[] args) {
         try {
-
             Integer key = null;
             while (true) {
                 key = InputManager.readInt("Enter key (integer): ");

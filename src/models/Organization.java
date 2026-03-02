@@ -49,6 +49,9 @@ public class Organization {
         return nextId++;
 
     }
+    public Long getId() {
+        return id;
+    }
 
     @Override
     public String toString() {
@@ -63,4 +66,15 @@ public class Organization {
                 '}';
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public OrganizationType getType() {
+        return type;
+    }
+
+    public int getAnnualTurnover() {
+        return annualTurnover;
+    }
 }

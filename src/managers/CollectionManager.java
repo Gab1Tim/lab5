@@ -1,13 +1,18 @@
 package managers;
 
 import models.Organization;
+import models.OrganizationType;
+
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class CollectionManager {
 
     private LinkedHashMap<Integer, Organization> collections;
     private LocalDateTime creationDate;
+    private FileManager fileManager = new FileManager();
 
     public CollectionManager() {
         collections = new LinkedHashMap<>();
@@ -52,12 +57,95 @@ public class CollectionManager {
     }
 
     public void show() {
-        if  (collections.isEmpty()) {
+        if (collections.isEmpty()) {
             System.out.println("Collection is empty");
             return;
         }
-        for (Organization organization : collections.values()) {
-            System.out.println(organization);
+        for (Map.Entry<Integer, Organization> entry : collections.entrySet()) {
+            System.out.println("Key: " + entry.getKey() + " | " + entry.getValue());
         }
     }
+
+    public void update(Long id, Organization newOrg) {
+        boolean found = false;
+        for (Map.Entry<Integer, Organization> entry : collections.entrySet()) {
+            if (entry.getValue().getId().equals(id)) {
+                collections.put(entry.getKey(), newOrg);
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            throw new IllegalArgumentException("Organization with id " + id + " does not exist");
+        }
+
+    }
+    public void removeGreaterKey(Integer referenceKey) {
+        LinkedHashMap<Integer, Organization> toRemove = new LinkedHashMap<>();
+
+        for (Map.Entry<Integer, Organization> entry : collections.entrySet()) {
+            if (entry.getKey() > referenceKey) {
+                toRemove.put(entry.getKey(), entry.getValue());
+            }
+        }
+
+        for (Integer key : toRemove.keySet()) {
+            collections.remove(key);
+        }
+    }
+
+    public Organization getMinByName() {
+        if (collections.isEmpty()) {
+            return null; // Koleksiyon boşsa null döndür
+        }
+
+        Organization minOrg = null;
+        for (Organization org : collections.values()) {
+            if (minOrg == null || org.getName().compareTo(minOrg.getName()) < 0) {
+                minOrg = org;
+            }
+        }
+        return minOrg;
+    }
+    public void filterGreaterThanType(OrganizationType referenceType) {
+        boolean found = false;
+        for (Organization org : collections.values()) {
+            if (org.getType() != null && org.getType().ordinal() > referenceType.ordinal()) {
+                System.out.println(org);
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No organizations found with type greater than " + referenceType);
+        }
+    }
+
+
+    public void printUniqueAnnualTurnover() {
+        if (collections.isEmpty()) {
+            System.out.println("Collection is empty!");
+            return;
+        }
+
+        HashSet<Integer> uniqueTurnovers = new HashSet<>();
+        for (Organization org : collections.values()) {
+            uniqueTurnovers.add(org.getAnnualTurnover());
+        }
+
+        System.out.println("Unique annual turnover values:");
+        for (Integer turnover : uniqueTurnovers) {
+            System.out.println(turnover);
+        }
+    }
+    public void saveCollection(FileManager fileManager, String fileName) {
+        fileManager.save(fileName, collections);
+    }
+
+    public void saveCollection(String fileName) {
+        fileManager.save(fileName, collections);
+    }
+
+
+
+
 }
