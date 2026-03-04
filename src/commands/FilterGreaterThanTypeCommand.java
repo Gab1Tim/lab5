@@ -2,8 +2,8 @@ package commands;
 
 import managers.CollectionManager;
 import managers.InputManager;
-import models.Organization;
 import models.OrganizationType;
+import models.Organization;
 
 public class FilterGreaterThanTypeCommand implements Command {
 
