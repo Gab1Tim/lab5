@@ -2,7 +2,7 @@ package models;
 
 import java.util.Date;
 
-public class Organization implements Comparable<Organization> {
+public class Organization implements Comparable <Organization> {
 
     private Long id;
     private String name;

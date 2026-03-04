@@ -26,9 +26,7 @@ public class FilterGreaterThanTypeCommand implements Command {
     @Override
     public void execute(String[] args) {
         try {
-            String typeStr = InputManager.readLine(
-                    "Enter Organization Type (COMMERCIAL, GOVERNMENT, TRUST, PRIVATE_LIMITED_COMPANY, OPEN_JOINT_STOCK_COMPANY): "
-            );
+            String typeStr = InputManager.readLine("Enter Organization Type (COMMERCIAL, GOVERNMENT, TRUST, PRIVATE_LIMITED_COMPANY, OPEN_JOINT_STOCK_COMPANY): ");
 
             OrganizationType type = OrganizationType.valueOf(typeStr);
 

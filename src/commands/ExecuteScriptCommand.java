@@ -56,7 +56,8 @@ public class ExecuteScriptCommand implements Command {
             fileScanner.close();
             InputManager.restoreConsoleInput();
 
-        } catch (FileNotFoundException e) {
+        }
+        catch (FileNotFoundException e) {
             System.out.println("Error reading file: " + e.getMessage());
         }
     }
