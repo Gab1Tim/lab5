@@ -2,7 +2,7 @@ package models;
 
 import java.util.Date;
 
-public class Organization {
+public class Organization implements Comparable<Organization> {
 
     private Long id;
     private String name;
@@ -76,5 +76,9 @@ public class Organization {
 
     public int getAnnualTurnover() {
         return annualTurnover;
+    }
+    @Override
+    public int compareTo(Organization other) {
+        return Integer.compare(this.annualTurnover, other.annualTurnover);
     }
 }

@@ -36,10 +36,16 @@ public class InsertCommand implements Command {
                     break;
                 }
             }
-
             String name = InputManager.readLine("Enter name: ");
-
-            double x = InputManager.readDouble("Enter X coordinate (double): ");
+            double x;
+            while (true) {
+                x = InputManager.readDouble("Enter X coordinate (double and X must be greater than -915): ");
+                if (x > -915) {
+                    break;
+                } else {
+                    System.out.println("X must be greater than -915. Try again.");
+                }
+            }
             Integer y = InputManager.readInt("Enter Y coordinate (integer): ");
             Coordinates coordinates = new Coordinates(x, y);
 
@@ -53,16 +59,14 @@ public class InsertCommand implements Command {
                 );
                 if (typeStr.isEmpty()) break;
                 try {
-                    type = OrganizationType.valueOf(typeStr);
+                    type = OrganizationType.valueOf(typeStr.trim().toUpperCase());
                     break;
                 } catch (IllegalArgumentException e) {
                     System.out.println("Invalid OrganizationType. Try again.");
                 }
             }
-
             String zip = InputManager.readLine("Enter zip code (max 19 chars, can be empty): ");
             Address address = new Address(zip.isEmpty() ? null : zip);
-
             Organization org = new Organization(name, coordinates, turnover, type, address);
             collectionManager.insert(key, org);
 

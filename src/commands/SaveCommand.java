@@ -1,11 +1,10 @@
 package commands;
 
 import managers.CollectionManager;
-import managers.InputManager;
 
 public class SaveCommand implements Command {
 
-    private CollectionManager collectionManager;
+    private final CollectionManager collectionManager;
 
     public SaveCommand(CollectionManager collectionManager) {
         this.collectionManager = collectionManager;
@@ -18,21 +17,12 @@ public class SaveCommand implements Command {
 
     @Override
     public String getDescription() {
-        return "Saves the collection to a JSON file";
+        return "save : save the collection to file";
     }
 
     @Override
     public void execute(String[] args) {
-        try {
-            String fileName = System.getenv("FILE_NAME");
-            if (fileName == null || fileName.isEmpty()) {
-                fileName = InputManager.readLine("Enter file name to save: ");
-            }
-
-            collectionManager.saveCollection(fileName);
-
-        } catch (Exception e) {
-            System.out.println("Error while saving collection: " + e.getMessage());
-        }
+        collectionManager.save();
+        System.out.println("Collection successfully saved.");
     }
 }

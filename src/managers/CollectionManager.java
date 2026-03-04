@@ -2,9 +2,9 @@ package managers;
 
 import models.Organization;
 import models.OrganizationType;
-
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -12,11 +12,17 @@ public class CollectionManager {
 
     private LinkedHashMap<Integer, Organization> collections;
     private LocalDateTime creationDate;
-    private FileManager fileManager = new FileManager();
+    private FileManager fileManager;
 
-    public CollectionManager() {
-        collections = new LinkedHashMap<>();
+
+    public CollectionManager(String fileName) {
+        fileManager = new FileManager(fileName);
+        collections = fileManager.load();
         creationDate = LocalDateTime.now();
+
+        if (collections == null) {
+            collections = new LinkedHashMap<>();
+        }
     }
 
     public void insert(Integer key, Organization organization) {
@@ -96,7 +102,7 @@ public class CollectionManager {
 
     public Organization getMinByName() {
         if (collections.isEmpty()) {
-            return null; // Koleksiyon boşsa null döndür
+            return null;
         }
 
         Organization minOrg = null;
@@ -107,6 +113,7 @@ public class CollectionManager {
         }
         return minOrg;
     }
+
     public void filterGreaterThanType(OrganizationType referenceType) {
         boolean found = false;
         for (Organization org : collections.values()) {
@@ -137,15 +144,30 @@ public class CollectionManager {
             System.out.println(turnover);
         }
     }
-    public void saveCollection(FileManager fileManager, String fileName) {
-        fileManager.save(fileName, collections);
-    }
 
-    public void saveCollection(String fileName) {
-        fileManager.save(fileName, collections);
+    public LinkedHashMap<Integer, Organization> getCollection() {
+        return collections;
     }
 
 
+    public int removeLower(Organization reference) {
+        Iterator<Map.Entry<Integer, Organization>> iterator =
+                collections.entrySet().iterator();
 
+        int removedCount = 0;
+
+        while (iterator.hasNext()) {
+            Organization current = iterator.next().getValue();
+            if (current.compareTo(reference) < 0) {
+                iterator.remove();
+                removedCount++;
+            }
+        }
+        return removedCount;
+    }
+
+    public void save() {
+        fileManager.save(collections);
+    }
 
 }

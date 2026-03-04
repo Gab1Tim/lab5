@@ -1,57 +1,65 @@
 package managers;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import models.Organization;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.OutputStreamWriter;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.lang.reflect.Type;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import java.lang.reflect.Type;
 
 public class FileManager {
 
-    private Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private final String fileName;
+    private final Gson gson = new Gson();
 
-    // --- SAVE ---
-    public void save(String fileName, LinkedHashMap<Integer, Organization> collections) {
-        try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(fileName))) {
-            writer.write(gson.toJson(collections));
-            System.out.println("Collection saved to " + fileName);
-        } catch (IOException e) {
-            System.out.println("Error saving to file: " + e.getMessage());
-        }
+    public FileManager(String fileName) {
+        this.fileName = fileName;
     }
 
-    // --- LOAD ---
-    public LinkedHashMap<Integer, Organization> load(String fileName) {
+    public LinkedHashMap<Integer, Organization> load() {
+        LinkedHashMap<Integer, Organization> map = new LinkedHashMap<>();
+
         try {
             File file = new File(fileName);
+            if (!file.exists()) {
+                return map;
+            }
+
             Scanner scanner = new Scanner(file);
-            StringBuilder jsonBuilder = new StringBuilder();
+            StringBuilder json = new StringBuilder();
+
             while (scanner.hasNextLine()) {
-                jsonBuilder.append(scanner.nextLine());
+                json.append(scanner.nextLine());
             }
             scanner.close();
 
             Type type = new TypeToken<LinkedHashMap<Integer, Organization>>(){}.getType();
-            LinkedHashMap<Integer, Organization> loaded = gson.fromJson(jsonBuilder.toString(), type);
+            map = gson.fromJson(json.toString(), type);
 
-            if (loaded != null) {
-                System.out.println("Collection loaded from " + fileName);
-                return loaded;
-            } else {
-                System.out.println("File is empty or invalid, starting with empty collection");
-                return new LinkedHashMap<>();
+            if (map == null) {
+                map = new LinkedHashMap<>();
             }
 
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found: " + e.getMessage());
-            return new LinkedHashMap<>();
+        } catch (Exception e) {
+            System.out.println("Error reading file: " + e.getMessage());
+        }
+
+        return map;
+    }
+
+    public void save(LinkedHashMap<Integer, Organization> map) {
+        try {
+            OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(fileName));
+
+            writer.write(gson.toJson(map));
+            writer.flush();
+            writer.close();
+
+            System.out.println("Collection saved.");
+
+        } catch (IOException e) {
+            System.out.println("Error writing file: " + e.getMessage());
         }
     }
 }

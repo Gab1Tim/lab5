@@ -1,14 +1,17 @@
 import commands.*;
 import managers.CollectionManager;
 import managers.CommandManager;
-import managers.FileManager;
 import managers.InputManager;
 
 public class Main {
 
     public static void main(String[] args) {
 
-        CollectionManager collectionManager = new CollectionManager();
+        String fileName = System.getenv("ORGANIZATION_FILE");
+
+        CollectionManager collectionManager =
+                new CollectionManager(fileName);
+
         CommandManager commandManager = new CommandManager();
 
         commandManager.registerCommand(new InsertCommand(collectionManager));
@@ -25,15 +28,15 @@ public class Main {
         commandManager.registerCommand(new FilterGreaterThanTypeCommand(collectionManager));
         commandManager.registerCommand(new PrintUniqueAnnualTurnoverCommand(collectionManager));
         commandManager.registerCommand(new SaveCommand(collectionManager));
+        commandManager.registerCommand(new RemoveLowerCommand(collectionManager, new InputManager()));
+        commandManager.registerCommand(new ExecuteScriptCommand(commandManager));
 
         System.out.println("Welcome! Type commands:");
 
         while (true) {
             String inputLine = InputManager.readLine("> ");
-            if (inputLine.equalsIgnoreCase("exit")) break;
+            if (inputLine == null) break;
             commandManager.executeCommand(inputLine);
         }
-
-        System.out.println("Program terminated.");
     }
 }
