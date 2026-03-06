@@ -29,36 +29,55 @@ public class ExecuteScriptCommand implements Command {
     public void execute(String[] args) {
 
         if (args.length < 1) {
-            System.out.println("Usage: execute_script with file_name");
+            System.out.println("Usage: execute_script <file_name>");
             return;
         }
 
         String fileName = args[0];
-
         File file = new File(fileName);
+
         if (!file.exists()) {
             System.out.println("File not found: " + fileName);
             return;
         }
 
+        if (!file.canRead()) {
+            System.out.println("Cannot read file (permission denied): " + fileName);
+            return;
+        }
+
         try {
             Scanner fileScanner = new Scanner(file);
-
             InputManager.setFileInput(fileScanner);
+
+            System.out.println("Running script: " + fileName);
 
             while (fileScanner.hasNextLine()) {
                 String line = fileScanner.nextLine().trim();
-                if (!line.isEmpty()) {
-                    System.out.println("> " + line);
+                if (line.isEmpty()) continue;
+
+                System.out.println("> " + line);
+
+                try {
                     commandManager.executeCommand(line);
+                } catch (InputManager.ScriptInputException e) {
+                    System.out.println("Script error: " + e.getMessage());
+                    System.out.println("Script stopped. Please fix your script and try again.");
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Script error: " + e.getMessage());
+                    System.out.println("Script stopped. Please fix your script and try again.");
+                    break;
                 }
             }
-            fileScanner.close();
-            InputManager.restoreConsoleInput();
 
-        }
-        catch (FileNotFoundException e) {
+            fileScanner.close();
+            System.out.println("Script finished: " + fileName);
+
+        } catch (FileNotFoundException e) {
             System.out.println("Error reading file: " + e.getMessage());
+        } finally {
+            InputManager.restoreConsoleInput();
         }
     }
 }

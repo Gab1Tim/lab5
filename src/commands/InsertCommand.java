@@ -2,12 +2,10 @@ package commands;
 
 import managers.CollectionManager;
 import managers.InputManager;
-import models.Address;
-import models.Coordinates;
 import models.Organization;
-import models.OrganizationType;
 
 public class InsertCommand implements Command {
+
     private CollectionManager collectionManager;
 
     public InsertCommand(CollectionManager collectionManager) {
@@ -21,58 +19,30 @@ public class InsertCommand implements Command {
 
     @Override
     public String getDescription() {
-        return "Inserts a new Organization with a unique key";
+        return "insert : Inserts a new Organization with a unique key";
     }
 
     @Override
     public void execute(String[] args) {
-        try {
-            Integer key = null;
+        Integer key;
+
+        if (InputManager.isScriptMode()) {
+            key = InputManager.readInt("Enter key (integer): ");
+            if (collectionManager.containsKey(key)) {
+                throw new InputManager.ScriptInputException(
+                        "Key " + key + " already exists in the collection. Please check your script."
+                );
+            }
+        } else {
             while (true) {
                 key = InputManager.readInt("Enter key (integer): ");
-                if (collectionManager.containsKey(key)) {
-                    System.out.println("Key already exists. Enter a different key.");
-                } else {
-                    break;
-                }
+                if (!collectionManager.containsKey(key)) break;
+                System.out.println("Key already exists. Enter a different key.");
             }
-            String name = InputManager.readLine("Enter name: ");
-            double x;
-            while (true) {
-                x = InputManager.readDouble("Enter X coordinate (double and X must be greater than -915): ");
-                if (x > -915) {
-                    break;
-                } else {
-                    System.out.println("X must be greater than -915. Try again.");
-                }
-            }
-            Integer y = InputManager.readInt("Enter Y coordinate (integer): ");
-            Coordinates coordinates = new Coordinates(x, y);
-
-            int turnover = InputManager.readInt("Enter annual turnover (int > 0): ");
-
-
-            OrganizationType type = null;
-            while (true) {
-                String typeStr = InputManager.readLine(
-                        "Enter Organization Type (COMMERCIAL, GOVERNMENT, TRUST, PRIVATE_LIMITED_COMPANY, OPEN_JOINT_STOCK_COMPANY): "
-                );
-                if (typeStr.isEmpty()) break;
-                try {
-                    type = OrganizationType.valueOf(typeStr.trim().toUpperCase());
-                    break;
-                } catch (IllegalArgumentException e) {
-                    System.out.println("Invalid OrganizationType. Try again.");
-                }
-            }
-            String zip = InputManager.readLine("Enter zip code (max 19 chars, can be empty): ");
-            Address address = new Address(zip.isEmpty() ? null : zip);
-            Organization org = new Organization(name, coordinates, turnover, type, address);
-            collectionManager.insert(key, org);
-
-            System.out.println("Organization added successfully!");
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
         }
+
+        Organization org = InputManager.readOrganization();
+        collectionManager.insert(key, org);
+        System.out.println("Organization added successfully!");
     }
 }
