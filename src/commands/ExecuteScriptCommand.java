@@ -7,10 +7,14 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+/**
+ * Команда {@code execute_script}: выполняет команды из файла.
+ */
 public class ExecuteScriptCommand implements Command {
 
     private final CommandManager commandManager;
 
+    /** Создаёт команду. */
     public ExecuteScriptCommand(CommandManager commandManager) {
         this.commandManager = commandManager;
     }
@@ -26,6 +30,7 @@ public class ExecuteScriptCommand implements Command {
     }
 
     @Override
+    /** Запускает выполнение скрипта. */
     public void execute(String[] args) {
 
         if (args.length < 1) {

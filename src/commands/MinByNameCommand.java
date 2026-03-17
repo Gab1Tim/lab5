@@ -3,10 +3,14 @@ package commands;
 import managers.CollectionManager;
 import models.Organization;
 
+/**
+ * Команда {@code min_by_name}: выводит организацию с минимальным именем.
+ */
 public class MinByNameCommand implements Command {
 
     private CollectionManager collectionManager;
 
+    /** Создаёт команду. */
     public MinByNameCommand(CollectionManager collectionManager) {
         this.collectionManager = collectionManager;
     }
@@ -22,6 +26,7 @@ public class MinByNameCommand implements Command {
     }
 
     @Override
+    /** Выполняет поиск и вывод. */
     public void execute(String[] args) {
         Organization minOrg = collectionManager.getMinByName();
         if (minOrg != null) {

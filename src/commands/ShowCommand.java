@@ -2,10 +2,14 @@ package commands;
 
 import managers.CollectionManager;
 
+/**
+ * Команда {@code show}: выводит элементы коллекции.
+ */
 public class ShowCommand  implements Command {
 
     private CollectionManager collectionManager;
 
+    /** Создаёт команду. */
     public ShowCommand(CollectionManager collectionManager) {
         this.collectionManager = collectionManager;
     }
@@ -21,6 +25,7 @@ public class ShowCommand  implements Command {
     }
 
     @Override
+    /** Выполняет показ коллекции. */
     public void execute(String[] args) {
         collectionManager.show();
     }

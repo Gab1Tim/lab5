@@ -1,10 +1,14 @@
 package models;
 
+/**
+ * Координаты организации.
+ */
 public class Coordinates {
 
     private double x;
     private Integer y;
 
+    /** Создаёт координаты. */
     public Coordinates(double x, Integer y){
         if (x <= -915) {
             throw new IllegalArgumentException("X coordinate must be bigger than -915");

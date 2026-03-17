@@ -3,8 +3,16 @@ import managers.CollectionManager;
 import managers.CommandManager;
 import managers.InputManager;
 
+/**
+ * Точка входа приложения.
+ */
 public class Main {
 
+    /**
+     * Запускает интерактивный цикл чтения и выполнения команд.
+     *
+     * @param args аргументы командной строки
+     */
     public static void main(String[] args) {
 
         String fileName = System.getenv("ORGANIZATION_FILE");

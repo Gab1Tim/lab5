@@ -3,10 +3,14 @@ package commands;
 import managers.CollectionManager;
 import managers.InputManager;
 
+/**
+ * Команда {@code remove_key}: удаляет элемент по ключу.
+ */
 public class RemoveKeyCommand implements Command {
 
     private CollectionManager collectionManager;
 
+    /** Создаёт команду. */
     public RemoveKeyCommand(CollectionManager collectionManager) {
         this.collectionManager = collectionManager;
     }
@@ -22,6 +26,7 @@ public class RemoveKeyCommand implements Command {
     }
 
     @Override
+    /** Выполняет удаление по ключу. */
     public void execute(String[] args) {
         try {
             Integer key = InputManager.readInt("Enter key to remove: ");

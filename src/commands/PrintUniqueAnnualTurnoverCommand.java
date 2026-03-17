@@ -2,10 +2,14 @@ package commands;
 
 import managers.CollectionManager;
 
+/**
+ * Команда {@code print_unique_annual_turnover}: печатает уникальные annualTurnover.
+ */
 public class PrintUniqueAnnualTurnoverCommand implements Command {
 
     private CollectionManager collectionManager;
 
+    /** Создаёт команду. */
     public PrintUniqueAnnualTurnoverCommand(CollectionManager collectionManager) {
         this.collectionManager = collectionManager;
     }
@@ -21,6 +25,7 @@ public class PrintUniqueAnnualTurnoverCommand implements Command {
     }
 
     @Override
+    /** Выполняет вывод. */
     public void execute(String[] args) {
         collectionManager.printUniqueAnnualTurnover();
     }

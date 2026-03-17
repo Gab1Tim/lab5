@@ -4,10 +4,14 @@ import managers.CollectionManager;
 import managers.InputManager;
 import models.Organization;
 
+/**
+ * Команда {@code insert}: добавляет новую организацию по ключу.
+ */
 public class InsertCommand implements Command {
 
     private CollectionManager collectionManager;
 
+    /** Создаёт команду. */
     public InsertCommand(CollectionManager collectionManager) {
         this.collectionManager = collectionManager;
     }
@@ -23,6 +27,7 @@ public class InsertCommand implements Command {
     }
 
     @Override
+    /** Выполняет добавление организации. */
     public void execute(String[] args) {
         Integer key;
 

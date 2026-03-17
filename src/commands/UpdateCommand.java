@@ -7,10 +7,14 @@ import models.Coordinates;
 import models.Organization;
 import models.OrganizationType;
 
+/**
+ * Команда {@code update}: обновляет организацию по id.
+ */
 public class UpdateCommand implements Command {
 
     private CollectionManager collectionManager;
 
+    /** Создаёт команду. */
     public UpdateCommand(CollectionManager collectionManager) {
         this.collectionManager = collectionManager;
     }
@@ -26,6 +30,7 @@ public class UpdateCommand implements Command {
     }
 
     @Override
+    /** Выполняет обновление. */
     public void execute(String[] args) {
         try {
 

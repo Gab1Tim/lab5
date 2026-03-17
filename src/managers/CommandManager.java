@@ -4,6 +4,9 @@ import commands.Command;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Регистрирует и выполняет команды, а также хранит историю.
+ */
 public class CommandManager {
 
     private Map<String, Command> commands = new HashMap<>();
@@ -11,10 +14,12 @@ public class CommandManager {
     private final int HISTORY_LIMIT = 12;
 
 
+    /** Регистрирует команду по её имени. */
     public void registerCommand(Command command) {
         commands.put(command.getName(), command);
     }
 
+    /** Разбирает строку ввода и выполняет соответствующую команду. */
     public void executeCommand(String inputLine) {
         if (inputLine == null || inputLine.isEmpty()) return;
 
@@ -37,12 +42,14 @@ public class CommandManager {
         }
     }
 
+    /** Печатает список всех доступных команд. */
     public void showAllCommands() {
         for (Command command : commands.values()) {
             System.out.println(command.getName() + " - " + command.getDescription());
         }
     }
 
+    /** Печатает историю последних выполненных команд. */
     public void showHistory() {
         for (String cmd : history) {
             System.out.println(cmd);

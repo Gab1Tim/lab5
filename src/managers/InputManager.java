@@ -6,12 +6,16 @@ import models.Organization;
 import models.OrganizationType;
 import java.util.Scanner;
 
+/**
+ * Утилиты ввода (консоль/скрипт) и чтение модели {@link Organization}.
+ */
 public class InputManager {
 
     private static Scanner scanner = new Scanner(System.in);
     private static final Scanner originalScanner = scanner;
     private static boolean scriptMode = false;
 
+    /** Читает строку (в режиме скрипта без приглашения). */
     public static String readLine(String prompt) {
         if (!scriptMode) {
             System.out.print(prompt);
@@ -24,6 +28,7 @@ public class InputManager {
         }
     }
 
+    /** Читает целое число с валидацией. */
     public static int readInt(String prompt) {
         while (true) {
             String line = readLine(prompt);
@@ -46,6 +51,7 @@ public class InputManager {
         }
     }
 
+    /** Читает число double с валидацией. */
     public static double readDouble(String prompt) {
         while (true) {
             String line = readLine(prompt);
@@ -64,6 +70,7 @@ public class InputManager {
         }
     }
 
+    /** Считывает организацию из ввода, задавая вопросы по полям. */
     public static Organization readOrganization() {
         String name = readLine("Enter name: ");
         if (name == null || name.isEmpty()) {
@@ -112,20 +119,24 @@ public class InputManager {
         return new Organization(name, coordinates, annualTurnover, type, address);
     }
 
+    /** Переключает ввод на скрипт (Scanner из файла). */
     public static void setFileInput(Scanner fileScanner) {
         scanner = fileScanner;
         scriptMode = true;
     }
 
+    /** Возвращает ввод обратно на консоль. */
     public static void restoreConsoleInput() {
         scanner = originalScanner;
         scriptMode = false;
     }
 
+    /** @return {@code true}, если сейчас читаем из скрипта */
     public static boolean isScriptMode() {
         return scriptMode;
     }
 
+    /** Исключение для ошибок ввода в режиме скрипта. */
     public static class ScriptInputException extends RuntimeException {
         public ScriptInputException(String message) {
             super(message);

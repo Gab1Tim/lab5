@@ -2,10 +2,14 @@ package commands;
 
 import managers.CommandManager;
 
+/**
+ * Команда {@code history}: показывает историю команд.
+ */
 public class HistoryCommand implements Command {
 
     private CommandManager  commandManager;
 
+    /** Создаёт команду. */
     public HistoryCommand(CommandManager commandManager) {
         this.commandManager = commandManager;
     }
@@ -19,6 +23,7 @@ public class HistoryCommand implements Command {
         return "Shows last 12 commands";
     }
     @Override
+    /** Выполняет вывод истории. */
     public void execute(String [] args) {
         commandManager.showHistory();
     }

@@ -1,5 +1,8 @@
 package commands;
 
+/**
+ * Команда {@code exit}: завершает программу.
+ */
 public class ExitCommand implements Command {
 
     @Override
@@ -12,6 +15,7 @@ public class ExitCommand implements Command {
     }
 
     @Override
+    /** Выполняет выход. */
     public void execute(String[] commands) {
         System.out.println("Exiting program...");
         System.exit(0);

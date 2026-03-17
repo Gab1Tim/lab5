@@ -3,10 +3,14 @@ package commands;
 import managers.CollectionManager;
 import managers.InputManager;
 
+/**
+ * Команда {@code remove_greater_key}: удаляет элементы с ключом больше заданного.
+ */
 public class RemoveGreaterKeyCommand implements Command {
 
     private CollectionManager collectionManager;
 
+    /** Создаёт команду. */
     public RemoveGreaterKeyCommand(CollectionManager collectionManager) {
         this.collectionManager = collectionManager;
     }
@@ -22,6 +26,7 @@ public class RemoveGreaterKeyCommand implements Command {
     }
 
     @Override
+    /** Выполняет удаление. */
     public void execute(String[] args) {
         try {
             Integer key = InputManager.readInt("Enter the key to compare: ");
