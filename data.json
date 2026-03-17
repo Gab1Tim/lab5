@@ -1,1 +1,1 @@
-{"1":{"id":1,"name":"deneme","coordinates":{"x":1.2341234E7,"y":1234},"creationDate":"Mar 6, 2026, 4:50:52 PM","annualTurnover":12341234,"type":"TRUST","officialAddress":{"zipCode":"24234"}}}
+{"1":{"id":1,"name":"deneme","coordinates":{"x":1.2341234E7,"y":1234},"creationDate":"Mar 6, 2026, 4:50:52 PM","annualTurnover":12341234,"type":"TRUST","officialAddress":{"zipCode":"24234"}},"2":{"id":1,"name":"gaz","coordinates":{"x":134.0,"y":23423},"creationDate":"Mar 6, 2026, 6:31:45 PM","annualTurnover":2342,"type":"TRUST","officialAddress":{"zipCode":"23423"}}}
