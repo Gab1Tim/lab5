@@ -5,7 +5,10 @@ import managers.InputManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 /**
  * Команда {@code execute_script}: выполняет команды из файла.
@@ -13,6 +16,8 @@ import java.util.Scanner;
 public class ExecuteScriptCommand implements Command {
 
     private final CommandManager commandManager;
+    /** Множество сейчас выполняемых скриптов (по каноническому пути). */
+    private static final Set<String> executingScripts = new HashSet<>();
 
     /** Создаёт команду. */
     public ExecuteScriptCommand(CommandManager commandManager) {
@@ -41,6 +46,19 @@ public class ExecuteScriptCommand implements Command {
         String fileName = args[0];
         File file = new File(fileName);
 
+        String canonicalPath;
+        try {
+            canonicalPath = file.getCanonicalPath();
+        } catch (IOException e) {
+            System.out.println("Cannot resolve script path: " + e.getMessage());
+            return;
+        }
+
+        if (executingScripts.contains(canonicalPath)) {
+            System.out.println("Recursive script call is not allowed: " + fileName);
+            return;
+        }
+
         if (!file.exists()) {
             System.out.println("File not found: " + fileName);
             return;
@@ -50,6 +68,8 @@ public class ExecuteScriptCommand implements Command {
             System.out.println("Cannot read file (permission denied): " + fileName);
             return;
         }
+
+        executingScripts.add(canonicalPath);
 
         try {
             Scanner fileScanner = new Scanner(file);
@@ -82,6 +102,7 @@ public class ExecuteScriptCommand implements Command {
         } catch (FileNotFoundException e) {
             System.out.println("Error reading file: " + e.getMessage());
         } finally {
+            executingScripts.remove(canonicalPath);
             InputManager.restoreConsoleInput();
         }
     }

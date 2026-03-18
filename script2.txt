@@ -1,8 +1,9 @@
 insert
-2
-DENEME
-234234
-sdfglks
-546987
-TRUST
-99999
+1
+MyCompany
+100
+50
+5000
+COMMERCIAL
+12345
+show

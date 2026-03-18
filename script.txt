@@ -1,9 +1,3 @@
-insert
-1
-MyCompany
-100
-50
-5000
-COMMERCIAL
-12345
 show
+info
+execute_script script2.txt

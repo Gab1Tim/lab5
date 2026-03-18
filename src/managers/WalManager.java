@@ -24,7 +24,7 @@ public class WalManager {
     public void log(String operation) {
         try {
             OutputStreamWriter writer = new OutputStreamWriter(
-                    new FileOutputStream(walFileName, true) // true = append
+                    new FileOutputStream(walFileName, true)
             );
             writer.write(operation + "\n");
             writer.flush();
